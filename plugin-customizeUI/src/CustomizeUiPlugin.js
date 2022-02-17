@@ -28,6 +28,13 @@ export default class CustomizeUiPlugin extends FlexPlugin {
     flex.MainHeader.Content.add(<FlexReadyDetector key="flex-ready-detector"/>);
 
 
+    flex.Actions.replaceAction('StartOutboundCall', (payload, original) => {
+      if(manager.workerClient.attributes.callerId){
+        payload.callerId = manager.workerClient.attributes.callerId;
+      }
+      original(payload);
+    })
+
     manager.strings.TransferFailedNotification = "This agent is busy on another task."
 
     // flex.DefaultTaskChannels.Call.notifications.override.TransferFailed = (notification) => {
